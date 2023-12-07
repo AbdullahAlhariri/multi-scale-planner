@@ -9,6 +9,7 @@
     "@prisma/client": "^5.7.0",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
+    "@vercel/speed-insights": "^1.0.0",
     "autoprefixer": "10.4.15",
     "geist": "^1.0.0",
     "next": "latest",

@@ -4,6 +4,7 @@ import 'primeicons/primeicons.css';
 import './globals.css';
 import {Button} from "primereact/button";
 import { PrimeReactProvider } from 'primereact/api';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export default function RootLayout({
   children,
@@ -20,14 +21,12 @@ export default function RootLayout({
   return (
     <PrimeReactProvider value={value}>
         <html lang="en">
-        <head>
-            <title>test</title>
-        </head>
         <body className="bg-background text-foreground">
             <main className="min-h-screen flex flex-col items-center">
               {children}
                 <Button>test</Button>
             </main>
+            <SpeedInsights/>
           </body>
         </html>
     </PrimeReactProvider>
