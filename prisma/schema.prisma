@@ -8,12 +8,12 @@ datasource db {
 }
 
 model user {
-  id       Int    @id @default(autoincrement())
-  roles    role[]
-  tags     tag[]
-  goals    goal[]
-  email    String @unique @db.VarChar(255)
-  password String @db.VarChar(255)
+  id                Int    @id @default(autoincrement())
+  authentication_id String @db.VarChar(36)
+  roles             role[]
+  tags              tag[]
+  goals             goal[]
+  email             String @unique @db.VarChar(255)
 }
 
 model role {

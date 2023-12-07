@@ -47,10 +47,10 @@ export default function Login({
     })
 
     if (error) {
-      return redirect('/login?message=Kan gebruiker niet verifiëren')
+      return redirect(`/login?message=${encodeURIComponent('Kan gebruiker niet verifiëren')}`)
     }
 
-    return redirect('/login?message=Bekijk je mail-box om verificatie af te ronden')
+    return redirect(`/login?message=${encodeURIComponent('Bekijk je mail-box om verificatie af te ronden')}`)
   }
 
   return (
