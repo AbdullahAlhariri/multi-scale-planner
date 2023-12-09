@@ -12,12 +12,12 @@ export default async function Index() {
     const {user, prismaUser} = await Auth.authorize();
     if (user === null || prismaUser === null) redirect('/login')
 
-    let tags = await prisma.tag.findMany({
+    const tags:{ name: string; code: string }[] = await prisma.tag.findMany({
         where: {
             user_id: prismaUser.id
         }
     }).then(tags => {
-        return tags.map(tag => ({name: tag.name, code: tag.id}))
+        return tags.map(tag => ({name: tag.name, code: tag.id.toString()}))
     })
 
   return (
