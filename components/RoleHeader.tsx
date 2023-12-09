@@ -109,7 +109,7 @@ export default function RoleHeader({roles}:{roles:{id: number, name: string, ico
                 :
                 <>
                     {roles.map(role =>
-                        <Button label={role.name} icon={role.icon} className="p-button role-selected py-2 p-text-primary" />
+                        <Button key={role.id} label={role.name} icon={role.icon} className="p-button role-selected py-2 p-text-primary" />
                     )}
                 </>
             }
