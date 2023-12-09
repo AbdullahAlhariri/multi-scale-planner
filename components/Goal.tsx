@@ -1,20 +1,21 @@
 'use client';
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
-import { Toast } from 'primereact/toast';
 import { Calendar } from 'primereact/calendar';
 import {InputText} from "primereact/inputtext";
+import {InputTextarea} from "primereact/inputtextarea";
+import {MultiSelect} from "primereact/multiselect";
 
-export default function Goal() {
-    const toast = useRef<Toast>(null);
-    const [visible, setVisible] = useState<boolean>(false);
-
-    // form
+export default function Goal({period, tags, toast, visible, setVisible}) {
+    // Form
     const [date, setDate] = useState(null);
     const [summary, setSummary] = useState<string>('');
-    function createGoal() {
+    const [description, setDescription] = useState<string>('');
+    const [selectedTags, setSelectedTags] = useState(null);
 
+    function createGoal() {
+        // Create goal
         toast.current?.show({severity:'success', summary: 'Success', detail:'Message Content', life: 3000});
         toast.current?.show({severity:'warn', summary: 'Warning', detail:'Message Content', life: 3000});
         toast.current?.show({severity:'error', summary: 'Error', detail:'Message Content', life: 3000});
@@ -28,28 +29,30 @@ export default function Goal() {
     );
 
     return (
-        <div className="card flex justify-content-center">
-            <Toast ref={toast} />
+        <Dialog header="Create goal" visible={visible} onHide={() => setVisible(false)} footer={footerContent} style={{ width: '700px', maxWidth: "95%" }}>
+            <div className="card flex flex-col gap-8 p-fluid pt-8">
+                <span className="p-float-label">
+                    <InputText id="username" value={summary} onChange={(e) => setSummary(e.target.value)} />
+                    <label htmlFor="username">Summary</label>
+                </span>
 
-            <Button label="Create goal" icon="pi pi-plus" onClick={() => setVisible(true)} />
-            <Dialog header="Header" visible={visible} onHide={() => setVisible(false)} footer={footerContent} style={{ width: '700px', maxWidth: "95%" }}>
+                <span className="p-float-label">
+                    <InputTextarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} rows={5} cols={30} />
+                    <label htmlFor="description">Description</label>
+                </span>
 
-                <Calendar value={date} showIcon />
-                <div className="flex flex-column gap-2 ">
-                    <label htmlFor="username">Username</label>
-                    <InputText id="username"  value={summary} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSummary(e.target.value)} />
-                    <small id="username-help">
-                        Enter your username to reset your password.
-                    </small>
+                <span className="p-float-label">
+                    <Calendar minDate={new Date()} id="calendar-date" placeholder={'dd-mm-yyyy'} dateFormat={'dd-mm-yy'} value={date} onChange={(e) => setDate(e.value)} required/>
+                    <label htmlFor="calendar-date">Deadline</label>
+                </span>
+
+                <div className="field col-12 md:col-4">
+                    <span className="p-float-label">
+                        <MultiSelect inputId="tags" value={selectedTags} options={tags} onChange={(e) => setSelectedTags(e.value)} optionLabel="name" />
+                        <label htmlFor="tags">Tags</label>
+                    </span>
                 </div>
-
-                <p className="m-0">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </p>
-            </Dialog>
-        </div>
+            </div>
+        </Dialog>
     )
 }

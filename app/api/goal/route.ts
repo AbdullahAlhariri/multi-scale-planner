@@ -1,31 +1,11 @@
-import {cookies} from "next/headers";
-import {createClient} from "@/utils/supabase/server";
-import { PrismaClient, Prisma } from '@prisma/client'
-
-const prisma = new PrismaClient()
-const getUser = async () => {
-    const cookieStore = cookies()
-    const supabase = createClient(cookieStore)
-    const { data: { user } } = await supabase.auth.getUser()
-    return user;
-}
-
-const authorize = async () => {
-    const user = await getUser()
-    const prismaUser = user && await prisma.user.findUnique({
-        where: {
-            authentication_id: user.id,
-            email: user.email
-        }
-    })
-
-    return {user, prismaUser}
-}
+import { PrismaClient } from '@prisma/client'
+import Auth from "@/app/utils/auth";
 
 // Prisma CRUD https://www.prisma.io/docs/orm/prisma-client/queries/crud
+const prisma = new PrismaClient()
 
 export async function GET(request: Request) {
-    const {user, prismaUser} = await authorize();
+    const {user, prismaUser} = await Auth.authorize();
     if (user === null || prismaUser === null)
         return new Response(JSON.stringify([]));
 
@@ -39,14 +19,14 @@ export async function GET(request: Request) {
         ))
     } catch (error) {
         console.error("Error during getting goals:", error);
-        return new Response(JSON.stringify({ error: "Error during translation" }), {
+        return new Response(JSON.stringify({ error: "Something went wrong" }), {
             status: 500,
         });
     }
 }
 
 export async function POST(req: Request) {
-    const {user, prismaUser} = await authorize();
+    const {user, prismaUser} = await Auth.authorize();
     if (user === null || prismaUser === null)
         return new Response(JSON.stringify([]), { status: 401 });
 
@@ -56,6 +36,7 @@ export async function POST(req: Request) {
 
     return new Response("[]");
 }
+
 export async function PUT(request: Request) {}
 
 export async function DELETE(request: Request) {}
