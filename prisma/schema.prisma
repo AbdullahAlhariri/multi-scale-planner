@@ -20,7 +20,7 @@ model role {
   id      Int    @id @default(autoincrement())
   user    user   @relation(fields: [user_id], references: [id])
   user_id Int
-  name    String @db.VarChar(255)
+  name    String @db.VarChar(20)
   icon    String @db.VarChar(255)
 }
 
