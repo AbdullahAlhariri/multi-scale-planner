@@ -4,7 +4,7 @@ import {Button} from "primereact/button";
 import React, {useRef, useState} from "react";
 import {Toast} from "primereact/toast";
 
-export default function Main({tags}) {
+export default function Main({tags}: {tags: {name: string, code: string}[]}) {
     const period = 'DAY'
     const toast = useRef<Toast>(null);
     const [goalDialog, setGoalDialog] = useState<boolean>(false);

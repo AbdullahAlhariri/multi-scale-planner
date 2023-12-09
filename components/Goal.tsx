@@ -6,10 +6,15 @@ import { Calendar } from 'primereact/calendar';
 import {InputText} from "primereact/inputtext";
 import {InputTextarea} from "primereact/inputtextarea";
 import {MultiSelect} from "primereact/multiselect";
+import {Toast} from "primereact/toast";
 
-export default function Goal({period, tags, toast, visible, setVisible}) {
+// @ts-ignore
+export default function Goal(
+    {period, tags, toast, visible, setVisible}:
+        {period: string, tags: {name: string, code: string}[], toast: React.RefObject<Toast>, visible: boolean, setVisible: any}
+) {
     // Form
-    const [date, setDate] = useState(null);
+    const [date, setDate] = useState<Date>(new Date());
     const [summary, setSummary] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [selectedTags, setSelectedTags] = useState(null);
@@ -42,7 +47,7 @@ export default function Goal({period, tags, toast, visible, setVisible}) {
                 </span>
 
                 <span className="p-float-label">
-                    <Calendar minDate={new Date()} id="calendar-date" placeholder={'dd-mm-yyyy'} dateFormat={'dd-mm-yy'} value={date} onChange={(e) => setDate(e.value)} required/>
+                    <Calendar minDate={new Date()} id="calendar-date" placeholder={'dd-mm-yyyy'} dateFormat={'dd-mm-yy'} value={date} onChange={(e) => setDate(e.value ?? new Date())} required/>
                     <label htmlFor="calendar-date">Deadline</label>
                 </span>
 
