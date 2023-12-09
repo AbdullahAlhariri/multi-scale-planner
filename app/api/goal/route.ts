@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import Auth from "@/app/utils/auth";
+import Auth from "@/utils/auth";
 
 // Prisma CRUD https://www.prisma.io/docs/orm/prisma-client/queries/crud
 const prisma = new PrismaClient()

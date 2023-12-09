@@ -2,7 +2,7 @@ import AuthButton from '../components/AuthButton'
 import {redirect} from "next/navigation";
 import Main from "@/components/Main";
 import React from "react";
-import Auth from "@/app/utils/auth";
+import Auth from "@/utils/auth";
 import {PrismaClient} from "@prisma/client";
 
 
