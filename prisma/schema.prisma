@@ -30,7 +30,7 @@ model goal {
   user_id     Int
   summary     String          @db.VarChar(255)
   description String          @db.VarChar(1000)
-  deadlin     DateTime
+  deadline    DateTime
   period      period
   tags        goal_tag_join[]
 }
