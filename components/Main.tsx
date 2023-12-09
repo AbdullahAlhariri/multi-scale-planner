@@ -10,11 +10,12 @@ export default function Main({tags}: {tags: {name: string, code: string}[]}) {
     const [goalDialog, setGoalDialog] = useState<boolean>(false);
 
   return (
-      <>
+      <div className={"flex"}>
+
         <Toast ref={toast} />
 
         <Button label="Create goal" icon="pi pi-plus" onClick={() => setGoalDialog(true)} />
         <Goal tags={tags} period={period} toast={toast} visible={goalDialog} setVisible={setGoalDialog}/>
-      </>
+      </div>
   )
 }

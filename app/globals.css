@@ -16,5 +16,35 @@
 }
 
 .p-highlight {
-    color: white !important;;
+    color: #0B3C49;
+    background: #38C6BD;
+}
+
+.p-button {
+    background: #38C6BD;
+    border-radius: 20px
+}
+
+.p-text-primary {
+    color: #0B3C49;
+}
+
+
+[role] {
+}
+
+.role-selected {
+    border: 5px solid #0B3C49;
+}
+
+.p-button:focus {
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #0B3C49, 0 1px 2px 0 black;
+}
+
+.p-button-help {
+    color: #731963;
+    background: none;
+}
+.p-button-help:focus {
+    box-shadow: none;
 }

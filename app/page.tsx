@@ -3,10 +3,11 @@ import {redirect} from "next/navigation";
 import Main from "@/components/Main";
 import React from "react";
 import Auth from "@/utils/auth";
-import {PrismaClient} from "@prisma/client";
-
-
-const prisma = new PrismaClient()
+import Link from "next/link";
+import Image from 'next/image';
+import logo from './assets/logo.svg'
+import prisma from "@/utils/prisma";
+import RoleHeader from "@/components/RoleHeader";
 
 export default async function Index() {
     const {user, prismaUser} = await Auth.authorize();
@@ -20,12 +21,36 @@ export default async function Index() {
         return tags.map(tag => ({name: tag.name, code: tag.id.toString()}))
     })
 
-  return (
+    const roles: {id: number, name: string, icon: string}[] = await prisma.role.findMany({
+        where: {
+            user_id: prismaUser.id
+        },
+        select: {
+            id: true,
+            name: true,
+            icon: true
+        },
+        orderBy: {
+            name: 'asc'
+        }
+    })
+
+    return (
     <div className="flex-1 w-full flex flex-col gap-20 items-center">
-      <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-        <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
-          <div></div>
-          <AuthButton />
+      <nav className="w-full flex justify-center mt-12">
+        <div className="w-full max-w-4xl gap-20 flex items-centertext-sm">
+            <Link href={'/'}>
+                <Image
+                    src={logo}
+                    width={100}
+                    height={100}
+                    alt="Picture of the author"
+                />
+            </Link>
+            <div className={"flex gap-4 flex-wrap content-start"} >
+                <RoleHeader roles={roles}/>
+            </div>
+          {/*<AuthButton />*/}
         </div>
       </nav>
 

@@ -28,8 +28,8 @@ export default function Goal(
 
     const footerContent = (
         <div>
-            <Button label="Cancel" icon="pi pi-times" onClick={() => setVisible(false)} className="p-button-text" />
-            <Button label="Save" icon="pi pi-save" onClick={() => { setVisible(false); createGoal() }} autoFocus />
+            <Button label="Cancel" onClick={() => setVisible(false)} className="p-button-text p-button-rounded" />
+            <Button className={"p-button-rounded"} label="Save" icon="pi pi-save" onClick={() => { setVisible(false); createGoal() }} autoFocus />
         </div>
     );
 
