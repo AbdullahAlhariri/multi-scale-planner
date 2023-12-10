@@ -1,8 +1,8 @@
 import React from 'react';
+import './globals.css';
 import "primereact/resources/themes/lara-light-teal/theme.css";
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
-import './globals.css';
 import { PrimeReactProvider } from 'primereact/api';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 export default function RootLayout({
