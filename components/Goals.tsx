@@ -137,12 +137,12 @@ export default function Goals({toast}: {toast: React.RefObject<Toast>}) {
   return (
     <div className={"flex w-full flex-col"}>
 
-        <div className={"w-8/12 mb-5"}>
+        <div className={"w-full px-5 sm:px-0 sm:w-10/12 lg:w-8/12 mb-5"}>
             { mspState.goals.length ?
                 <>
                     <div className={"w-full bg-gray-100 sorter px-4 gap-5 flex"} >
-                        <Button onClick={() => sortAlphabetical()} label="Alphabatical" severity="help" text  icon={'pi pi-caret-down'} className={"py-2 px-1"}/>
-                        <Button onClick={() => sortByEnd()} label="Ending" severity="help" text  icon={'pi pi-caret-down'} className={"py-2 px-1"}/>
+                        <Button onClick={() => sortAlphabetical()} label="Alphabatical" severity="help" text  icon={'pi pi-caret-down'} className={"text-accent py-2 px-1"}/>
+                        <Button onClick={() => sortByEnd()} label="Ending" severity="help" text  icon={'pi pi-caret-down'} className={"text-accent py-2 px-1"}/>
                     </div>
                     { mspState.goals.map(goal => (<Goal includePeriod={mspState.period === ''} key={goal.id} goal={goal} toast={toast} />)) }
                 </>

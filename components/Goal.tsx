@@ -156,7 +156,7 @@ export default function Goal({goal, toast, includePeriod}: {goal: Goal, toast: R
     const daysLeft = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
     const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const formattedDate = `${daysOfWeek[new Date(goal.end).getDay()]} ${new Date(goal.end).getDate()} ${new Date(goal.end).toLocaleString('en-US', { month: 'short', year: 'numeric' })}`;
+    const formattedDate = `${daysOfWeek[new Date(goal.end).getDay()]} ${new Date(goal.end).getDate()} ${new Date(goal.end).toLocaleString('en-US', { month: 'short' })}`;
 
     const toCapitalize = (str:string) => {
         return str.charAt(0).toUpperCase() + str.slice(1);

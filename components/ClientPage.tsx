@@ -43,8 +43,8 @@ export default function ClientPage({allRoles , allTags, serverAllGoals}) {
         <Toast ref={toast} />
             <div className="flex-1 w-full flex flex-col gap-10 items-center mt-4">
                     <nav className="w-full flex justify-center">
-                        <div className="w-full max-w-4xl gap-20 flex items-centertext-sm">
-                            <div className={"cursor-pointer"} onClick={() => setPeriod('')}>
+                        <div className="flex w-full max-w-4xl gap-3 sm:gap-20 flex items-centertext-sm items-start sm:items-stretch justify-between sm:items-start items-center">
+                            <div className={"cursor-pointer bg-secondary h-full flex sm:block sm:h-auto sm:bg-white"} onClick={() => setPeriod('')}>
                                 <Image
                                     src={logo}
                                     width={110}
@@ -52,14 +52,26 @@ export default function ClientPage({allRoles , allTags, serverAllGoals}) {
                                     alt="Logo"
                                 />
                             </div>
-                            <div className={"flex gap-4 flex-wrap content-start"} >
-                                <RoleHeader />
+                            <div className={"sm:w-full w-9/12 flex flex-col gap-2"}>
+                                <div className={"flex sm:gap-4 flex-wrap content-start sm:bg-white bg-primary topRightHeader sm:overflow-visible overflow-x-auto flex-nowrap sm:flex-wrap"} >
+                                    <RoleHeader toast={toast}/>
+                                </div>
+
+                                <div className={"sm:hidden flex sm:gap-4 flex-wrap content-start sm:bg-white bg-accent topRightHeader overflow-x-auto flex-nowrap sm:flex-wrap"} >
+                                    <div><Button className={'bg-accent py-3 ' + (period == 'DAY' ? 'selected-period' : '') }  onClick={() => setPeriod('DAY')} label="Day" severity="help" text /></div>
+                                    <div><Button className={'bg-accent py-3 ' + (period == 'WEEK' ? 'selected-period' : '') }  onClick={() => setPeriod('WEEK')} label="Week" severity="help" text /></div>
+                                    <div><Button className={'bg-accent py-3 ' + (period == 'MONTH' ? 'selected-period' : '') }  onClick={() => setPeriod('MONTH')} label="Month" severity="help" text /></div>
+                                    <div><Button className={'bg-accent py-3 ' + (period == 'QUARTER' ? 'selected-period' : '') }  onClick={() => setPeriod('QUARTER')} label="Quarter" severity="help" text /></div>
+                                    <div><Button className={'bg-accent py-3 ' + (period == 'YEAR' ? 'selected-period' : '') }  onClick={() => setPeriod('YEAR')} label="Year" severity="help" text /></div>
+                                </div>
                             </div>
+
                         </div>
                     </nav>
+
                     <main className="w-full flex justify-center">
-                        <div className="w-full max-w-4xl gap-20 flex items-centertext-sm items-start">
-                            <div className={"w-3/12"}>
+                        <div className="w-full max-w-4xl gap-17 flex items-centertext-sm items-start">
+                            <div className={"w-4/12 hidden sm:block"}>
                                 <div className={"flex flex-col items-start"}>
                                     <div className={"flex content-center flex-wrap gap-2"}>
                                         {period == 'DAY' ?
@@ -110,8 +122,8 @@ export default function ClientPage({allRoles , allTags, serverAllGoals}) {
                             </div>
 
                             {loading ?
-                                <div className={"w-12/12 items-end"}>
-                                    <i className="pi pi-spin pi-spinner text-3xl" />
+                                <div className={"w-12/12 sm:mx-0 mx-auto mt-2"}>
+                                    <i className="pi pi-spin pi-spinner text-3xl text-accent" />
                                 </div>
                             :
                                 <Goals toast={toast}/>

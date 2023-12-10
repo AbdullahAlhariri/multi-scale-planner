@@ -57,7 +57,7 @@ export default async function Index() {
         <>
             <div className={"w-full max-w-4xl gap-20 flex items-centertext-sm"}>
                 <form action={signOut}>
-                    <Button className={' p-1'} label="Logout" severity="help" text />
+                    <Button className={'p-1 text-accent'} label="Logout" severity="help" text />
                 </form>
             </div>
             <ClientPage allRoles={roles} allTags={tags} serverAllGoals={goals}></ClientPage>

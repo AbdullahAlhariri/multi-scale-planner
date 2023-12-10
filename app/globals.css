@@ -44,6 +44,13 @@
     color: #731963;
     background: none;
 }
+
+@media (max-width: 640px) {
+    .p-button-help {
+        color: white;
+    }
+}
+
 .p-button-help:focus {
     box-shadow: none;
 }
@@ -88,4 +95,41 @@
 
 .text-primary {
     color: #0B3C49;
+}
+
+.bg-primary {
+    background: #24505C;
+}
+
+.bg-secondary {
+    background: #38C6BD;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 6px 12px;
+}
+
+.topRightHeader {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.role-selected-sm {
+    background: #0B3C49;
+    border-radius: 10px;
+}
+
+.role-selected-sm:focus {
+    outline: none !important;
+    border: none !important;
+}
+
+.bg-accent {
+    background: #813073;
+}
+.selected-period {
+    border-radius: 10px;
+    background: #731963;
+}
+.text-accent {
+    color: #731963;
 }
