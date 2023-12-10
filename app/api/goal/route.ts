@@ -28,8 +28,8 @@ export async function POST(req: Request) {
     if (user === null || prismaUser === null)
         return new Response(JSON.stringify([]), { status: 401 });
 
-    const {date, description, selectedTags, summary, period} = await req.json()
-    if (!date || !description || !selectedTags || !summary || !period) {
+    const {date, description, selectedTags, summary, period, role_id} = await req.json()
+    if (!date || !description || !selectedTags || !summary || !period || !role_id) {
         return new Response(JSON.stringify({
             'message' : 'All fields must be filled'
         }), {status: 400});
@@ -39,15 +39,17 @@ export async function POST(req: Request) {
         data: {
             user_id: prismaUser.id,
             end: date,
-            description: description,
-            summary: summary,
-            period: period,
+            description,
+            summary,
+            period,
+            role_id: +role_id,
             tags: {
                 connect: selectedTags
             }
         },
         include: {
-            tags: true
+            tags: true,
+            role: true
         }
     })
 

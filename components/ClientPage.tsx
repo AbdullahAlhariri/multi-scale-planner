@@ -1,6 +1,6 @@
 'use client'
 import Goals from "@/components/Goals";
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Link from "next/link";
 import Image from 'next/image';
 import logo from '../app/assets/logo.svg'
@@ -10,21 +10,30 @@ import {Toast} from "primereact/toast";
 import {Button} from "primereact/button";
 
 // @ts-ignore
-export default function ClientPage({allRoles , allTags, allGoals}) {
+export default function ClientPage({allRoles , allTags, serverAllGoals}) {
     const toast = useRef<Toast>(null);
     const [role, setRole] = useState<Role|{}>(allRoles[0] ?? {});
     const [roles, setRoles] = useState<Role[]>(allRoles);
     const [tags, setTags] = useState<Tag[]>(allTags);
     const [period, setPeriod] = useState<string>('DAY')
-    const [goals, setGoals] = useState<Goal[]>(allGoals);
+    const [goals, setGoals] = useState<Goal[]>(serverAllGoals);
+    const [allGoals, setAllGoals] = useState<Goal[]>(serverAllGoals);
 
     const MSPStateObject = {
         role, setRole,
         roles, setRoles,
         period, setPeriod,
         tags, setTags,
-        goals, setGoals
+        goals, setGoals,
+        allGoals, setAllGoals
     };
+
+    useEffect(() => {
+        const updatedGoals = allGoals.filter(
+            (goal: Goal) => (period === '' || goal.period === period) && goal.role.id === role.id
+        );
+        setGoals(updatedGoals);
+    }, [role, period, allGoals]);
 
     return (
         <MSPState.Provider value={MSPStateObject}>

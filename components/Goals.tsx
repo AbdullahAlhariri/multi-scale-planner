@@ -30,6 +30,7 @@ export default function Goals({toast}: {toast: React.RefObject<Toast>}) {
                 summary,
                 description,
                 selectedTags,
+                role_id: mspState.role.id,
                 period: mspState.period
             })
         })
@@ -48,9 +49,13 @@ export default function Goals({toast}: {toast: React.RefObject<Toast>}) {
         setDescription('')
         setSelectedTags([])
 
-        const tempGoals = mspState.goals
+        const tempGoals = [...mspState.goals]
         tempGoals.push(resultBody)
         mspState.setGoals(tempGoals)
+
+        const tempAllGoals = [...mspState.allGoals]
+        tempAllGoals.push(resultBody)
+        mspState.setAllGoals(tempAllGoals)
 
         setVisible(false)
         setLoading(false)
@@ -81,10 +86,10 @@ export default function Goals({toast}: {toast: React.RefObject<Toast>}) {
     function sortByEnd() {
         const tempGoals = [...mspState.goals];
         if (sortByEndDirection === 'asc') {
-            tempGoals.sort((b, a) => a.end.getTime() - b.end.getTime());
+            tempGoals.sort((b, a) => (new Date(a.end)).getTime() - (new Date(b.end)).getTime());
             setSortByEndDirection('desc');
         } else {
-            tempGoals.sort((a, b) => a.end.getTime() - b.end.getTime());
+            tempGoals.sort((a, b) => (new Date(a.end)).getTime() - (new Date(b.end)).getTime());
             setSortByEndDirection('asc');
         }
         mspState.setGoals(tempGoals);

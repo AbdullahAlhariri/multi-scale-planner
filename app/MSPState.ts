@@ -20,6 +20,7 @@ export interface Goal extends base {
     description: string,
     end: Date
     period: string
+    role: Role
 }
 
 export interface MSPStateInterface {
@@ -33,6 +34,8 @@ export interface MSPStateInterface {
     setTags: React.Dispatch<React.SetStateAction<Tag[]>>
     goals: Goal[],
     setGoals: React.Dispatch<React.SetStateAction<Goal[]>>
+    allGoals: Goal[],
+    setAllGoals: React.Dispatch<React.SetStateAction<Goal[]>>
 }
 
 const initialState: MSPStateInterface = {
@@ -46,6 +49,8 @@ const initialState: MSPStateInterface = {
     setTags: () => {},
     goals: [],
     setGoals: () => {},
+    allGoals: [],
+    setAllGoals: () => {},
 };
 
 const MSPState = createContext<MSPStateInterface>(initialState);

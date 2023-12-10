@@ -34,10 +34,13 @@ export default async function Index() {
         },
         orderBy: {
             end: 'asc'
+        },
+        include: {
+            role: true
         }
     })
 
     return (
-        <ClientPage allRoles={roles} allTags={tags} allGoals={goals}></ClientPage>
+        <ClientPage allRoles={roles} allTags={tags} serverAllGoals={goals}></ClientPage>
     )
 }

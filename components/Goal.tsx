@@ -59,9 +59,24 @@ export default function Goal({goal, toast}: {goal: Goal, toast: React.RefObject<
                 period: mapGoal.period,
                 summary,
                 user_id: mapGoal.user_id,
+                role: mapGoal.role
             }
         })
         mspState.setGoals(tempGoals)
+
+        const tempAllGoals = mspState.allGoals.map(mapGoal => {
+            if (mapGoal.id !== goal.id) return mapGoal;
+            return {
+                description,
+                end,
+                id: goal.id,
+                period: mapGoal.period,
+                summary,
+                user_id: mapGoal.user_id,
+                role: mapGoal.role
+            }
+        })
+        mspState.setAllGoals(tempAllGoals)
 
         setVisible(false)
         setLoading(false)
@@ -84,6 +99,9 @@ export default function Goal({goal, toast}: {goal: Goal, toast: React.RefObject<
 
         const tempGoals = mspState.goals.filter(filterGoal => filterGoal.id !== goal.id)
         mspState.setGoals(tempGoals)
+
+        const tempAllGoals = mspState.allGoals.filter(filterGoal => filterGoal.id !== goal.id)
+        mspState.setAllGoals(tempAllGoals)
 
         setVisible(false)
         setDeleteLoading(false)
