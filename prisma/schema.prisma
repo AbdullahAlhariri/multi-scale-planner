@@ -22,6 +22,7 @@ model role {
   user_id Int
   name    String @db.VarChar(20)
   icon    String @db.VarChar(255)
+  goal    goal[]
 }
 
 model goal {
@@ -33,6 +34,8 @@ model goal {
   end         DateTime
   period      period
   tags        tag[]
+  role        role     @relation(fields: [role_id], references: [id])
+  role_id     Int
 }
 
 model tag {
