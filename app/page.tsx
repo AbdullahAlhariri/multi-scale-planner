@@ -4,6 +4,18 @@ import Auth from "@/utils/auth";
 import prisma from "@/utils/prisma";
 import ClientPage from "@/components/ClientPage";
 import {Role, Tag, Goal} from "@/app/MSPState";
+import {cookies} from "next/headers";
+import {createClient} from "@/utils/supabase/server";
+import {Button} from "primereact/button";
+
+const signOut = async () => {
+    'use server'
+
+    const cookieStore = cookies()
+    const supabase = createClient(cookieStore)
+    await supabase.auth.signOut()
+    return redirect('/login')
+}
 
 export default async function Index() {
     'use server'
@@ -42,6 +54,13 @@ export default async function Index() {
     })
 
     return (
-        <ClientPage allRoles={roles} allTags={tags} serverAllGoals={goals}></ClientPage>
+        <>
+            <div className={"w-full max-w-4xl gap-20 flex items-centertext-sm"}>
+                <form action={signOut}>
+                    <Button className={' p-1'} label="Logout" severity="help" text />
+                </form>
+            </div>
+            <ClientPage allRoles={roles} allTags={tags} serverAllGoals={goals}></ClientPage>
+        </>
     )
 }

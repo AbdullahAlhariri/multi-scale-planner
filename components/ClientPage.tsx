@@ -41,7 +41,7 @@ export default function ClientPage({allRoles , allTags, serverAllGoals}) {
     return (
         <MSPState.Provider value={MSPStateObject}>
         <Toast ref={toast} />
-            <div className="flex-1 w-full flex flex-col gap-10 items-center mt-12">
+            <div className="flex-1 w-full flex flex-col gap-10 items-center mt-4">
                     <nav className="w-full flex justify-center">
                         <div className="w-full max-w-4xl gap-20 flex items-centertext-sm">
                             <div className={"cursor-pointer"} onClick={() => setPeriod('')}>
@@ -49,13 +49,12 @@ export default function ClientPage({allRoles , allTags, serverAllGoals}) {
                                     src={logo}
                                     width={110}
                                     height={110}
-                                    alt="Picture of the author"
+                                    alt="Logo"
                                 />
                             </div>
                             <div className={"flex gap-4 flex-wrap content-start"} >
                                 <RoleHeader />
                             </div>
-                            {/*<AuthButton />*/}
                         </div>
                     </nav>
                     <main className="w-full flex justify-center">

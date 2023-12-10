@@ -1,6 +1,9 @@
 import { headers, cookies } from 'next/headers'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
+import Image from "next/image";
+import logo from "@/app/assets/logo.svg";
+import React from "react";
 
 export default function Login({
   searchParams,
@@ -59,6 +62,17 @@ export default function Login({
         className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground"
         action={signIn}
       >
+        <div className={"flex justify-center items-center mb-5"}>
+          <Image
+              src={logo}
+              width={110}
+              height={110}
+              alt="Logo"
+          />
+          <p className={"ml-4 text-primary text-lg font-bold"}>
+            Multi scale <br/>planner
+          </p>
+        </div>
         <label className="text-md" htmlFor="email">
           Email
         </label>
@@ -78,12 +92,12 @@ export default function Login({
           placeholder="••••••••"
           required
         />
-        <button className="bg-green-700 rounded-md px-4 py-2 text-foreground mb-2">
+        <button className="login rounded-md px-4 py-2 text-foreground mb-2">
           Login
         </button>
         <button
           formAction={signUp}
-          className="border border-foreground/20 rounded-md px-4 py-2 text-foreground mb-2"
+          className="register border-foreground/20 rounded-md px-4 py-2 text-foreground mb-2"
         >
           Register
         </button>
