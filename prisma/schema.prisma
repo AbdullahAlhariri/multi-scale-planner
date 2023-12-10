@@ -25,31 +25,22 @@ model role {
 }
 
 model goal {
-  id          Int             @id @default(autoincrement())
-  user        user            @relation(fields: [user_id], references: [id])
+  id          Int      @id @default(autoincrement())
+  user        user     @relation(fields: [user_id], references: [id])
   user_id     Int
-  summary     String          @db.VarChar(255)
-  description String          @db.VarChar(1000)
-  deadline    DateTime
+  summary     String   @db.VarChar(255)
+  description String   @db.VarChar(1000)
+  end         DateTime
   period      period
-  tags        goal_tag_join[]
+  tags        tag[]
 }
 
 model tag {
-  id      Int             @id @default(autoincrement())
-  user    user            @relation(fields: [user_id], references: [id])
+  id      Int    @id @default(autoincrement())
+  user    user   @relation(fields: [user_id], references: [id])
   user_id Int
-  name    String          @db.VarChar(25)
-  goals   goal_tag_join[]
-}
-
-model goal_tag_join {
-  goal    goal @relation(fields: [goal_id], references: [id])
-  goal_id Int // relation scalar field (used in the `@relation` attribute above)
-  tag     tag  @relation(fields: [tag_id], references: [id])
-  tag_id  Int
-
-  @@id([goal_id, tag_id])
+  name    String @db.VarChar(25)
+  goals   goal[]
 }
 
 enum period {

@@ -48,3 +48,31 @@
 .p-button-help:focus {
     box-shadow: none;
 }
+
+.sorter {
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: rgba(115, 25, 99, 0.10);
+    color: #731963;
+}
+
+.add-goal {
+    border-radius: 10px;
+    border: 2.5px dashed #731963;
+    color: #731963;
+    background: none;
+}
+
+.add-goal:focus {
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #731963, 0 1px 2px 0 black;
+}
+
+.bg-none {
+    background: none
+}
+
+.goal {
+    border-radius: 10px;
+    background-color: #0B3C49;
+    color: white;
+}

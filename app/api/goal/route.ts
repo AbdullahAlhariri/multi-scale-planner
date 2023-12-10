@@ -1,8 +1,6 @@
-import { PrismaClient } from '@prisma/client'
 import Auth from "@/utils/auth";
-
+import prisma from "@/utils/prisma";
 // Prisma CRUD https://www.prisma.io/docs/orm/prisma-client/queries/crud
-const prisma = new PrismaClient()
 
 export async function GET(request: Request) {
     const {user, prismaUser} = await Auth.authorize();
@@ -30,16 +28,90 @@ export async function POST(req: Request) {
     if (user === null || prismaUser === null)
         return new Response(JSON.stringify([]), { status: 401 });
 
-    // const formData = await req.formData()
-    // console.log(formData.get('summary'))
-    const body = await req.json()
+    const {date, description, selectedTags, summary, period} = await req.json()
+    if (!date || !description || !selectedTags || !summary || !period) {
+        return new Response(JSON.stringify({
+            'message' : 'All fields must be filled'
+        }), {status: 400});
+    }
 
-    return new Response("[]");
+    const goal = await prisma.goal.create({
+        data: {
+            user_id: prismaUser.id,
+            end: date,
+            description: description,
+            summary: summary,
+            period: period,
+            tags: {
+                connect: selectedTags
+            }
+        },
+        include: {
+            tags: true
+        }
+    })
+
+    return new Response(JSON.stringify(goal));
 }
 
-export async function PUT(request: Request) {}
+export async function PUT(request: Request) {
+    const {user, prismaUser} = await Auth.authorize();
+    if (user === null || prismaUser === null)
+        return new Response(JSON.stringify([]), { status: 401 });
 
-export async function DELETE(request: Request) {}
+    const {end, description, selectedTags, summary, id} = await request.json()
+    if (!end || !description || !selectedTags || !summary) {
+        return new Response(JSON.stringify({
+            'message' : 'All fields must be filled'
+        }), {status: 400});
+    }
+
+    const goal = await prisma.goal.update({
+        where: {
+            id,
+            user_id: prismaUser.id
+        },
+        data: {
+            end,
+            description,
+            summary,
+            tags: {
+                connect: selectedTags
+            }
+        },
+        include: {
+            tags: true
+        }
+    })
+
+    return new Response(JSON.stringify(goal));
+}
+
+export async function DELETE(request: Request) {
+    const {user, prismaUser} = await Auth.authorize();
+    if (user === null || prismaUser === null)
+        return new Response(JSON.stringify([]), { status: 401 });
+
+    let id: string|number = request.url.split('id=')[1];
+    if (!id) return new Response('', {status: 400});
+
+    try {
+        id = +id
+        await prisma.goal.delete({
+            where: {
+                user_id: prismaUser.id,
+                id,
+            }
+        })
+
+        return new Response(JSON.stringify({}), {status: 200})
+    } catch (e) {
+        console.error("Error during removing goal:", e);
+        return new Response(JSON.stringify({ error: "Something went wrong" }), {
+            status: 500,
+        });
+    }
+}
 export async function HEAD(request: Request) {}
 
 export async function PATCH(request: Request) {}

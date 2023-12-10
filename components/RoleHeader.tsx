@@ -9,7 +9,7 @@ import {PrimeIcons} from "primereact/api";
 import MSPState from "@/app/MSPState";
 
 // @ts-ignore
-export default function RoleHeader({roles}:{roles:{id: number, name: string, icon: string}[]}) {
+export default function RoleHeader() {
     const mspState = useContext(MSPState)
 
     const [visible, setVisible] = useState<boolean>(false);
@@ -38,7 +38,9 @@ export default function RoleHeader({roles}:{roles:{id: number, name: string, ico
         setIcon(null)
         setVisible(false)
 
-        roles.push(resultBody)
+        const tempRoles = mspState.roles
+        tempRoles.push(resultBody)
+        mspState.setRoles(tempRoles)
         mspState.setRole(resultBody)
 
         setLoading(false)
@@ -72,7 +74,6 @@ export default function RoleHeader({roles}:{roles:{id: number, name: string, ico
         { name: 'User', icon: PrimeIcons.USER }
     ]
 
-
     // @ts-ignore
     const selectedCountryTemplate = (option, props) => {
         if (option) return countryOptionTemplate(option)
@@ -92,7 +93,7 @@ export default function RoleHeader({roles}:{roles:{id: number, name: string, ico
     return (
         <>
             <Toast ref={toast} />
-            { roles.length === 0 ?
+            { mspState.roles.length === 0 ?
                 <Dialog header="Create your first role!" visible={true} closable={false} footer={footerContent} style={{ width: '700px', maxWidth: "95%" }} onHide={() => {}}>
                     <div className="card flex flex-col gap-8 p-fluid pt-8">
                     <span className="p-float-label">
@@ -112,12 +113,12 @@ export default function RoleHeader({roles}:{roles:{id: number, name: string, ico
                 </Dialog>
                 :
                 <>
-                    {roles.map(role =>
+                    {mspState.roles.map(role =>
                         <Button onClick={() => mspState.setRole(role)} key={role.id} label={role.name} icon={role.icon} className={ ("id" in mspState.role && mspState.role.id == role.id ? "role-selected" : "") + " p-button py-2 p-text-primary"} />
                     )}
                 </>
             }
-            { roles.length < 4 ?
+            { mspState.roles.length < 4 ?
                 <>
                     <Button onClick={() => setVisible(true)} label="Add role" severity="help" text  icon={'pi pi-plus'}/>
                     <Dialog header="Create new role" visible={visible} footer={footerContent} style={{ width: '700px', maxWidth: "95%" }} onHide={() => setVisible(false)}>
