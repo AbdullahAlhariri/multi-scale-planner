@@ -1,0 +1,30 @@
+@startuml
+actor User
+
+participant "page"
+participant "Goal API"
+participant auth.ts
+participant prisma.ts
+
+User -> "page": Initial request
+"page" -> auth.ts: Validate session
+
+alt authenticated
+    auth.ts --> "page": Authentication Accepted
+else unauthenticated
+    auth.ts --> "page": Unauthenticated
+    "page" --> User: Redirect to login page
+end
+
+"page" --> User: Page render
+
+User -> "Goal API": Remove goal (DELETE)
+alt Goal exist
+    "Goal API" -> prisma.ts: Remove goal
+    prisma.ts --> "Goal API": Goal removed
+    "Goal API" --> User: 200 removed
+else Goal doesn't exist
+    "Goal API" --> User: 400 Bad request
+end
+
+@enduml
