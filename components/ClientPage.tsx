@@ -28,6 +28,7 @@ export default function ClientPage({allRoles , allTags, serverAllGoals}) {
     };
 
     useEffect(() => {
+        if (!("id" in role)) return
         const updatedGoals = allGoals.filter(
             (goal: Goal) => (period === '' || goal.period === period) && goal.role.id === role.id
         );

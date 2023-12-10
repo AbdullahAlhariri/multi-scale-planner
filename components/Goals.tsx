@@ -22,6 +22,7 @@ export default function Goals({toast}: {toast: React.RefObject<Toast>}) {
     const [loading, setLoading] = useState<boolean>(false);
 
     async function createGoal() {
+        if (!("id" in mspState.role)) return
         setLoading(true)
         const result = await fetch('/api/goal', {
             'method': 'POST',
