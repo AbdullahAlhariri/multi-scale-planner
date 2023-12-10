@@ -33,7 +33,7 @@ export default function Login() {
                 'method': 'POST',
                 'body': JSON.stringify({email, password})
             })
-            if (response.ok) return  setMessage('View your mailbox to complete verification');
+            if (response.ok) return  setMessage('View your mailbox to complete verification if this email hasn\'t registered before');
 
             setMessage('Something went wrong');
 
@@ -57,6 +57,7 @@ export default function Login() {
                 onChange={(e) => setEmail(e.target.value)}
                 className="rounded-md px-4 py-2 bg-inherit border mb-6"
                 name="email"
+                id={"email"}
                 placeholder="you@example.com"
                 required
             />
@@ -69,6 +70,7 @@ export default function Login() {
                 className="rounded-md px-4 py-2 bg-inherit border mb-6"
                 type="password"
                 name="password"
+                id={"password"}
                 placeholder="••••••••"
                 required
             />
