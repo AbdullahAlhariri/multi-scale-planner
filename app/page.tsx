@@ -36,7 +36,8 @@ export default async function Index() {
             end: 'asc'
         },
         include: {
-            role: true
+            role: true,
+            tags: true
         }
     })
 

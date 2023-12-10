@@ -21,6 +21,7 @@ export interface Goal extends base {
     end: Date
     period: string
     role: Role
+    tags: Tag[]
 }
 
 export interface MSPStateInterface {

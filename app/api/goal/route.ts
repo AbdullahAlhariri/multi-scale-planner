@@ -68,7 +68,7 @@ export async function PUT(request: Request) {
         }), {status: 400});
     }
 
-    const goal = await prisma.goal.update({
+    let goal = await prisma.goal.update({
         where: {
             id,
             user_id: prismaUser.id
@@ -78,11 +78,12 @@ export async function PUT(request: Request) {
             description,
             summary,
             tags: {
-                connect: selectedTags
+                set: selectedTags
             }
         },
         include: {
-            tags: true
+            tags: true,
+            role: true
         }
     })
 

@@ -5,6 +5,7 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import { PrimeReactProvider } from 'primereact/api';
 import { SpeedInsights } from "@vercel/speed-insights/next"
+
 export default function RootLayout({
   children,
 }: {

@@ -17,18 +17,48 @@ export default function Goal({goal, toast, includePeriod}: {goal: Goal, toast: R
     const [end, setEnd] = useState<Date>(new Date(goal.end));
     const [summary, setSummary] = useState<string>(goal.summary);
     const [description, setDescription] = useState<string>(goal.description);
-    const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+    const [selectedTags, setSelectedTags] = useState<Tag[]>(goal.tags);
     const [loading, setLoading] = useState<boolean>(false);
     const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
+    const [createTagVisible, setCreateTagVisible] = useState<boolean>(false)
+    const [tagName, setTagName] = useState<string>('')
+    const [tagLoading, setTagLoading] = useState<boolean>(false)
+
+    async function createTag() {
+        setTagLoading(true)
+        const result = await fetch('/api/tag', {
+            'method': 'POST',
+            'body': JSON.stringify({
+                name: tagName,
+            })
+        })
+
+        const resultBody = await result.json();
+        if (result.ok) {
+            toast.current?.show({severity:'success', summary: 'Success', detail:'Tag created', life: 3000});
+        } else {
+            toast.current?.show({severity:'error', summary: 'Error', detail: resultBody.message, life: 3000});
+            setTagLoading(false)
+            return
+        }
+
+        setTagName('')
+
+        mspState.tags.push(resultBody)
+        mspState.setTags(mspState.tags)
+
+        setCreateTagVisible(false)
+        setTagLoading(false)
+    }
+
+    const tagFooterContent = (
+        <div>
+            <Button label="Cancel" onClick={() => setCreateTagVisible(false)} className="p-button-text p-button-rounded p-text-primary bg-none" />
+            <Button loading={tagLoading} className={"p-button-rounded p-text-primary"} label="Save" icon="pi pi-save" onClick={() => { createTag() }} autoFocus />
+        </div>
+    );
 
     async function editGoal() {
-        console.log({
-            end,
-            summary,
-            description,
-            selectedTags,
-            id: goal.id
-        })
         setLoading(true)
         const result = await fetch('/api/goal', {
             'method': 'PUT',
@@ -59,7 +89,8 @@ export default function Goal({goal, toast, includePeriod}: {goal: Goal, toast: R
                 period: mapGoal.period,
                 summary,
                 user_id: mapGoal.user_id,
-                role: mapGoal.role
+                role: mapGoal.role,
+                tags: selectedTags
             }
         })
         mspState.setGoals(tempGoals)
@@ -73,7 +104,8 @@ export default function Goal({goal, toast, includePeriod}: {goal: Goal, toast: R
                 period: mapGoal.period,
                 summary,
                 user_id: mapGoal.user_id,
-                role: mapGoal.role
+                role: mapGoal.role,
+                tags: selectedTags
             }
         })
         mspState.setAllGoals(tempAllGoals)
@@ -169,12 +201,21 @@ export default function Goal({goal, toast, includePeriod}: {goal: Goal, toast: R
                         <label htmlFor="calendar-date">End</label>
                     </span>
 
-                    <div className="field col-12 md:col-4">
-                        <span className="p-float-label">
-                            <MultiSelect inputId="tags" value={selectedTags} options={mspState.tags} onChange={(e) => setSelectedTags(e.value)} optionLabel="name" />
+                    <div className="field col-12 md:col-4 flex ga-2">
+                        <span className="p-float-label w-full">
+                            <MultiSelect showClear={true} inputId="tags" value={selectedTags} options={mspState.tags} onChange={(e) => setSelectedTags(e.value)} optionLabel="name" />
                             <label htmlFor="tags">Tags</label>
                         </span>
+                        <Button onClick={() => setCreateTagVisible(true)} className={"ml-2 p-text-primary"} icon="pi pi-plus" />
                     </div>
+                </div>
+            </Dialog>
+            <Dialog header="Create new tag" visible={createTagVisible} onHide={() => setCreateTagVisible(false)} footer={tagFooterContent} style={{ width: '700px', maxWidth: "95%" }}>
+                <div className="card flex flex-col gap-8 p-fluid pt-8">
+                <span className="p-float-label">
+                    <InputText id="tagName" value={tagName} onChange={(e) => setTagName(e.target.value)} />
+                    <label htmlFor="tagName">name</label>
+                </span>
                 </div>
             </Dialog>
         </>
