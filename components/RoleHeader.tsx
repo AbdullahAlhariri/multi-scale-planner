@@ -1,20 +1,23 @@
 'use client';
-import React, {useRef, useState} from "react";
+import React, {useRef, useState, useContext} from "react";
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import {InputText} from "primereact/inputtext";
 import {Toast} from "primereact/toast";
 import {Dropdown} from "primereact/dropdown";
 import {PrimeIcons} from "primereact/api";
+import MSPState from "@/app/MSPState";
 
 // @ts-ignore
 export default function RoleHeader({roles}:{roles:{id: number, name: string, icon: string}[]}) {
+    const mspState = useContext(MSPState)
+
     const [visible, setVisible] = useState<boolean>(false);
     const [name, setName] = useState<string>('');
     const [icon, setIcon] = useState<{name:string, icon:string}|null>(null);
     const [loading, setLoading] = useState<boolean>(false);
-
     const toast = useRef<Toast>(null);
+
     async function createRole() {
         setLoading(true)
         const result = await fetch('/api/role', {
@@ -36,6 +39,7 @@ export default function RoleHeader({roles}:{roles:{id: number, name: string, ico
         setVisible(false)
 
         roles.push(resultBody)
+        mspState.setRole(resultBody)
 
         setLoading(false)
     }
@@ -109,7 +113,7 @@ export default function RoleHeader({roles}:{roles:{id: number, name: string, ico
                 :
                 <>
                     {roles.map(role =>
-                        <Button key={role.id} label={role.name} icon={role.icon} className="p-button role-selected py-2 p-text-primary" />
+                        <Button onClick={() => mspState.setRole(role)} key={role.id} label={role.name} icon={role.icon} className={ ("id" in mspState.role && mspState.role.id == role.id ? "role-selected" : "") + " p-button py-2 p-text-primary"} />
                     )}
                 </>
             }

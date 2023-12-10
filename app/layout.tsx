@@ -2,7 +2,6 @@ import React from 'react';
 import "primereact/resources/themes/lara-light-teal/theme.css";
 import 'primeicons/primeicons.css';
 import './globals.css';
-import {Button} from "primereact/button";
 import { PrimeReactProvider } from 'primereact/api';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
@@ -23,7 +22,7 @@ export default function RootLayout({
         <html lang="en">
         <body className="bg-background text-foreground">
             <main className="min-h-screen flex flex-col items-center">
-              {children}
+                {children}
             </main>
             <SpeedInsights/>
           </body>
