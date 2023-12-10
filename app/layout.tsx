@@ -1,10 +1,7 @@
 import React from 'react';
-import './globals.css';
-import "primereact/resources/themes/lara-light-teal/theme.css";
-import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
 import { PrimeReactProvider } from 'primereact/api';
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import './globals.css';
 
 const defaultUrl = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
