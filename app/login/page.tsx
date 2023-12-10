@@ -1,112 +1,88 @@
-import { headers, cookies } from 'next/headers'
-import { createClient } from '@/utils/supabase/server'
-import { redirect } from 'next/navigation'
-import Image from "next/image";
-import logo from "@/app/assets/logo.svg";
-import React from "react";
+'use client';
+import Image from 'next/image';
+import logo from '@/app/assets/logo.svg';
+import React, { useState } from 'react';
 
-export default function Login({
-  searchParams,
-}: {
-  searchParams: { message: string }
-}) {
-  const signIn = async (formData: FormData) => {
-    'use server'
+export default function Login() {
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [message, setMessage] = useState<string>('');
 
-    const email = formData.get('email') as string
-    const password = formData.get('password') as string
-    const cookieStore = cookies()
-    const supabase = createClient(cookieStore)
+    const signIn = async () => {
+        if (!password || !email) return setMessage('Email and password are required to log in');
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
+        try {
+            const response = await fetch('/api/login', {
+                'method': 'POST',
+                'body': JSON.stringify({email, password})
+            })
+            if (!response.ok) return  setMessage("Unable to authorize user");
 
-    if (error) {
-      return redirect('/login?message=Kan gebruiker niet verifiëren')
-    }
+            window.location.pathname = '/'
+        }catch (e) {
+             setMessage("Unable to authorize user")
+        }
+    };
 
-    return redirect('/')
-  }
+    const signUp = async () => {
+        if (!password || !email) return setMessage('Email and password are required to register');
+        if (password.length < 8) return setMessage('Password must have at least 8 characters');
 
-  const signUp = async (formData: FormData) => {
-    'use server'
+        try {
+            const response = await fetch('/api/register', {
+                'method': 'POST',
+                'body': JSON.stringify({email, password})
+            })
+            if (response.ok) return  setMessage('View your mailbox to complete verification');
 
-    const origin = headers().get('origin')
-    const email = formData.get('email') as string
-    const password = formData.get('password') as string
-    if (password.length < 8) return redirect('/login?message=Wachtwoord moet minimaal 8 characters bevatten')
+            setMessage('Something went wrong');
 
-    const cookieStore = cookies()
-    const supabase = createClient(cookieStore)
+        }catch (e) {
+            setMessage('Unable to authorize user');
+        }
 
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: `${origin}/auth/callback`,
-      },
-    })
+    };
 
-    if (error) {
-      return redirect(`/login?message=${encodeURIComponent('Kan gebruiker niet verifiëren')}`)
-    }
-
-    return redirect(`/login?message=${encodeURIComponent('Bekijk je mail-box om verificatie af te ronden')}`)
-  }
-
-  return (
-    <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
-      <form
-        className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground"
-        action={signIn}
-      >
-        <div className={"flex justify-center items-center mb-5"}>
-          <Image
-              src={logo}
-              width={110}
-              height={110}
-              alt="Logo"
-          />
-          <p className={"ml-4 text-primary text-lg font-bold"}>
-            Multi scale <br/>planner
-          </p>
+    return (
+        <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
+            <div className={'flex justify-center items-center mb-5'}>
+                <Image src={logo} width={110} height={110} alt="Logo" />
+                <p className={'ml-4 text-primary text-lg font-bold'}>Multi scale <br />planner</p>
+            </div>
+            <label className="text-md" htmlFor="email">
+                Email
+            </label>
+            <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="rounded-md px-4 py-2 bg-inherit border mb-6"
+                name="email"
+                placeholder="you@example.com"
+                required
+            />
+            <label className="text-md" htmlFor="password">
+                Password
+            </label>
+            <input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="rounded-md px-4 py-2 bg-inherit border mb-6"
+                type="password"
+                name="password"
+                placeholder="••••••••"
+                required
+            />
+            <button onClick={signIn} className="login rounded-md px-4 py-2 text-foreground mb-2">
+                Login
+            </button>
+            <button onClick={signUp} className="register border-foreground/20 rounded-md px-4 py-2 text-foreground mb-2">
+                Register
+            </button>
+            {message && (
+                <p className="mt-4 p-4 bg-foreground/10 text-foreground text-center">
+                    {message}
+                </p>
+            )}
         </div>
-        <label className="text-md" htmlFor="email">
-          Email
-        </label>
-        <input
-          className="rounded-md px-4 py-2 bg-inherit border mb-6"
-          name="email"
-          placeholder="you@example.com"
-          required
-        />
-        <label className="text-md" htmlFor="password">
-          Password
-        </label>
-        <input
-          className="rounded-md px-4 py-2 bg-inherit border mb-6"
-          type="password"
-          name="password"
-          placeholder="••••••••"
-          required
-        />
-        <button className="login rounded-md px-4 py-2 text-foreground mb-2">
-          Login
-        </button>
-        <button
-          formAction={signUp}
-          className="register border-foreground/20 rounded-md px-4 py-2 text-foreground mb-2"
-        >
-          Register
-        </button>
-        {searchParams?.message && (
-          <p className="mt-4 p-4 bg-foreground/10 text-foreground text-center">
-            {searchParams.message}
-          </p>
-        )}
-      </form>
-    </div>
-  )
+    );
 }
