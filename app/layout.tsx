@@ -6,6 +6,16 @@ import 'primeicons/primeicons.css';
 import { PrimeReactProvider } from 'primereact/api';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
+const defaultUrl = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : 'http://localhost:3000'
+
+export const metadata = {
+    metadataBase: new URL(defaultUrl),
+    title: 'MSP | Multi scale planner',
+    description: 'Multi scale planner tool',
+}
+
 export default function RootLayout({
   children,
 }: {
