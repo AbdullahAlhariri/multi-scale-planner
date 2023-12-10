@@ -140,11 +140,13 @@ export default function Goal({goal, toast, includePeriod}: {goal: Goal, toast: R
     }
 
     const footerContent = (
-        <div className={"flex justify-between"}>
-            <Button loading={deleteLoading} label="Remove" onClick={() => removeGoal()} className="p-button-text p-button-rounded p-text-danger bg-none" icon={"pi pi-trash"} severity="danger" />
+        <div className={"flex flex-col sm:items-end  gap-5"}>
             <div>
                 <Button label="Cancel" onClick={() => setVisible(false)} className="p-button-text p-button-rounded p-text-primary bg-none" />
                 <Button loading={loading} className={"p-button-rounded p-text-primary"} label="Edit" icon="pi pi-save" onClick={() => { editGoal() }} autoFocus />
+            </div>
+            <div className={"flex flex-start"}>
+                <Button loading={deleteLoading} label="Remove" onClick={() => removeGoal()} className="p-button-text p-button-rounded p-text-danger bg-none" icon={"pi pi-trash"} severity="danger" />
             </div>
         </div>
     );
@@ -155,7 +157,7 @@ export default function Goal({goal, toast, includePeriod}: {goal: Goal, toast: R
     // Calculate the number of days left
     const daysLeft = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
-    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const formattedDate = `${daysOfWeek[new Date(goal.end).getDay()]} ${new Date(goal.end).getDate()} ${new Date(goal.end).toLocaleString('en-US', { month: 'short' })}`;
 
     const toCapitalize = (str:string) => {
