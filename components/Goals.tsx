@@ -99,20 +99,22 @@ export default function Goals({toast}: {toast: React.RefObject<Toast>}) {
   return (
     <div className={"flex w-full flex-col"}>
 
-        <div className={"w-8/12"}>
+        <div className={"w-8/12 mb-5"}>
             { mspState.goals.length ?
                 <>
                     <div className={"w-full bg-gray-100 sorter px-4 gap-5 flex"} >
                         <Button onClick={() => sortAlphabetical()} label="Alphabatical" severity="help" text  icon={'pi pi-caret-down'} className={"py-2 px-1"}/>
                         <Button onClick={() => sortByEnd()} label="Ending" severity="help" text  icon={'pi pi-caret-down'} className={"py-2 px-1"}/>
                     </div>
-                    { mspState.goals.map(goal => (<Goal key={goal.id} goal={goal} toast={toast} />)) }
+                    { mspState.goals.map(goal => (<Goal includePeriod={mspState.period === ''} key={goal.id} goal={goal} toast={toast} />)) }
                 </>
             : <></>}
 
-            <Button onClick={() => setVisible(true)} className={"mt-3 flex w-full cursor-pointer content-center justify-center border-2 px-10 py-5 add-goal gap-2"} icon={"pi pi-plus"}>
-                Add {mspState.period.toLowerCase()} Goal
-            </Button>
+            { mspState.period ?
+                <Button onClick={() => setVisible(true)} className={"mt-3 flex w-full cursor-pointer content-center justify-center border-2 px-10 py-5 add-goal gap-2"} icon={"pi pi-plus"}>
+                    Add {mspState.period.toLowerCase()} Goal
+                </Button>
+            : <></>}
         </div>
 
         <Dialog header="Create goal" visible={visible} onHide={() => setVisible(false)} footer={footerContent} style={{ width: '700px', maxWidth: "95%" }}>

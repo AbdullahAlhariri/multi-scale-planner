@@ -1,7 +1,6 @@
 'use client'
 import Goals from "@/components/Goals";
 import React, {useEffect, useRef, useState} from "react";
-import Link from "next/link";
 import Image from 'next/image';
 import logo from '../app/assets/logo.svg'
 import RoleHeader from "@/components/RoleHeader";
@@ -41,14 +40,14 @@ export default function ClientPage({allRoles , allTags, serverAllGoals}) {
         <div className="flex-1 w-full flex flex-col gap-10 items-center mt-12">
             <nav className="w-full flex justify-center">
                 <div className="w-full max-w-4xl gap-20 flex items-centertext-sm">
-                    <Link href={'/'}>
+                    <div className={"cursor-pointer"} onClick={() => setPeriod('')}>
                         <Image
                             src={logo}
-                            width={100}
-                            height={100}
+                            width={110}
+                            height={110}
                             alt="Picture of the author"
                         />
-                    </Link>
+                    </div>
                     <div className={"flex gap-4 flex-wrap content-start"} >
                         <RoleHeader />
                     </div>

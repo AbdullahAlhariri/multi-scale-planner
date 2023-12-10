@@ -9,7 +9,7 @@ import {Calendar} from "primereact/calendar";
 import {MultiSelect} from "primereact/multiselect";
 import MSPState, {Goal, Tag} from "@/app/MSPState";
 
-export default function Goal({goal, toast}: {goal: Goal, toast: React.RefObject<Toast>}) {
+export default function Goal({goal, toast, includePeriod}: {goal: Goal, toast: React.RefObject<Toast>, includePeriod: boolean}) {
     const mspState = useContext(MSPState)
     const [visible, setVisible] = useState<boolean>(false);
 
@@ -126,24 +126,23 @@ export default function Goal({goal, toast}: {goal: Goal, toast: React.RefObject<
     const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const formattedDate = `${daysOfWeek[new Date(goal.end).getDay()]} ${new Date(goal.end).getDate()} ${new Date(goal.end).toLocaleString('en-US', { month: 'short', year: 'numeric' })}`;
 
+    const toCapitalize = (str:string) => {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    };
+
     return (
         <>
             <div className={"goal py-5 px-6 mt-4 cursor-pointer"} onClick={() => setVisible(true)}>
-                <div className={"flex"}>
+                <div className={"flex gap-3"}>
                     <p className={'font-light text-sm'}>
                         {formattedDate}
                     </p>
-                    <span className="ml-2 text-cyan-400 text-sm font-bold">
-                        { daysLeft <= 0 ?
-                            <>
-                                Ends today
-                            </>
-                        :
-                            <>
-                                In {daysLeft} {daysLeft > 1 ? 'days' : 'day'}
-                            </>
-                        }
+                    <span className="text-cyan-400 text-sm font-bold">
+                        { daysLeft <= 0 ? <>Ends today</> : <>In {daysLeft} {daysLeft > 1 ? 'days' : 'day'}</> }
                     </span>
+                    { includePeriod ?
+                    <p className={"font-light text-sm"}>{ toCapitalize(goal.period.toLowerCase()) } goal</p>
+                    :<></>}
                 </div>
                 <p className={"font-bold text-2xl mt-1"}>
                     {goal.summary}
