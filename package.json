@@ -25,9 +25,5 @@
     "@types/react-dom": "18.2.5",
     "encoding": "^0.1.13",
     "prisma": "^5.7.0"
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions"
-  ]
+  }
 }
