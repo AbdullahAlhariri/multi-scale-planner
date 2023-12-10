@@ -1,0 +1,59 @@
+@startuml
+
+folder View(Components) {
+    artifact Goal
+    artifact Goals
+    artifact Login
+    artifact Page
+    artifact Role
+    artifact RoleHeader
+}
+
+folder state {
+    artifact MSPStateInterface
+    artifact Base
+    artifact "Goal "
+    artifact initialState
+    artifact "Role "
+    artifact "Tag "
+    Base <|.. "Role ": is a
+    Base <|.. "Tag ": is a
+    Base <|.. "Goal ": is a
+    "Role " ..> MSPStateInterface
+    "Tag " ..> MSPStateInterface
+    "Goal " ..> MSPStateInterface
+    MSPStateInterface ..> initialState
+}
+
+folder models {
+    artifact " Goal "
+    artifact " Period "
+    artifact " Role "
+    artifact " Tag "
+    artifact " User "
+}
+
+folder Controller(API) {
+    artifact goal
+    artifact login
+    artifact register
+    artifact role
+    artifact tag
+}
+
+folder Utils {
+    artifact auth.ts
+    artifact prisma.ts
+    folder supabase {
+        artifact client
+        artifact middleware
+        artifact server
+    }
+}
+
+"Controller(API)" ...> models: uses
+"Controller(API)" ...> Utils: uses
+"View(Components)" .> Utils: uses
+"View(Components)" .> "Controller(API)": uses
+"View(Components)" .> state: uses
+@enduml
