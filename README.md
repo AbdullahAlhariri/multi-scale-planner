@@ -12,11 +12,9 @@ Personally, I think that this project could have the potential to grow to a fanc
 
 Access thir project at:
 #### prod branch: 
-- [**multiscaleplanner.com**](https://www.multiscaleplanner.com)
 - [**multi-scaleplanner.com**](https://www.multi-scaleplanner.com)
 - [**multi-scale-planner.vercel.app**](https://multi-scale-planner.vercel.app)
 #### dev branch: 
-- [**dev.multiscaleplanner.com**](https://dev.multiscaleplanner.com)
 - [**dev.multi-scaleplanner.com**](https://dev.multi-scaleplanner.com)
 
 ## Main functionalities
